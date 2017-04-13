@@ -7,7 +7,7 @@ defmodule Containers.Mixfile do
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     description: "Functional container data structures for better runtime safety and polymorphism",
+     description: "Functional container like data structures for better runtime safety and polymorphism",
      package: package(),
      deps: deps()]
   end

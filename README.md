@@ -1,6 +1,6 @@
 # Containers
 
-Containers are functional data structures that help provide greater runtime safety and polymorphism.
+Containers are functional like data structures that help provide greater runtime safety and polymorphism.
 
 ## Protocols
 
