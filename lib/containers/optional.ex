@@ -36,8 +36,8 @@ defmodule Containers.Optional do
 end
 
 defimpl Containers.Appenedable, for: Containers.Optional do
-  def append(%Containers.Optional{value: nil}, _), do: %Containers.Optional{}
-  def append(_, %Containers.Optional{value: nil}), do: %Containers.Optional{}
+  def append(%Containers.Optional{value: nil}, o), do: o
+  def append(o, %Containers.Optional{value: nil}), do: o
   def append(%Containers.Optional{value: v1}, %Containers.Optional{value: v2}),
     do: %Containers.Optional{value: Containers.append(v1, v2)}
 end
