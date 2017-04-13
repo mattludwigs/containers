@@ -48,9 +48,9 @@ defmodule Containers do
 
   ## Examples
 
-    iex> my_optional = Containers.Optional.to_optional(1)
-    iex> Containers.map(my_optional, fn(i) -> i + 1 end)
-    %Containers.Optional{value: 2}
+      iex> my_optional = Containers.Optional.to_optional(1)
+      iex> Containers.map(my_optional, fn(i) -> i + 1 end)
+      %Containers.Optional{value: 2}
   """
   @spec map(struct(), (... -> any())) :: struct()
   def map(s, f), do: Containers.Mappable.map(s, f)
