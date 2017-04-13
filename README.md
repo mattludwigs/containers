@@ -2,6 +2,8 @@
 
 Containers are functional like data structures that help provide greater runtime safety and polymorphism.
 
+This package is dependency free. There are some dev only deps, but the package only relies on Elixir.
+
 ## Protocols
 
   * `Appenedable` - A container that provies an interface of `append`. Safe against `nil` values.
