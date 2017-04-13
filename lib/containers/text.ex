@@ -8,8 +8,7 @@ defmodule Containers.Text do
     1. Appenedable
     2. Mappable
     3. Unwrappable
-    4. Emptyable
-    5. Sequenceable
+    4. Sequenceable
   """
   alias __MODULE__
 
