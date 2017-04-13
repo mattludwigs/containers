@@ -1,7 +1,7 @@
 defmodule Containers.Optional do
   @moduledoc """
-  Inspired by the Maybe type in other languages this container provides away
-  to wrap any value and safely able to transform the value. This will provide
+  Inspired by the Maybe type in other languages this container provides a way
+  to wrap any value and safely transform the value. This should result in
   less runtime errors.
 
   # Implemented Protocols
@@ -11,7 +11,7 @@ defmodule Containers.Optional do
     3. Sequenceable
     4. Unwrappable
 
-  **NOTE** Appenedable assumes that the inner value is implements the Appenedable protocol. Until further research is done
+  **NOTE** Appenedable assumes that the inner value implements the Appenedable protocol. Until further research is done
   there does not seem to be a way to ensure this is true of the inner value at compile time.
 
   """
