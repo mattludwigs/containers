@@ -6,10 +6,10 @@ This package is dependency free. There are some dev only deps, but the package o
 
 ## Protocols
 
-  * `Appenedable` - A container that provies an interface of `append`. Safe against `nil` values.
+  * `Appenedable` - A container that provides an interface of `append`. Safe against `nil` values.
     Namely when passing a container with the value `nil` into either the first of second argument
     to `append`, the other value is not change and there is no runtime error.
-  * `Mappable` - A container that provies an interface to `map`. When `map` is called on a container that
+  * `Mappable` - A container that provides an interface to `map`. When `map` is called on a container that
     has a `nil` value that container just passes through with out the mapping function being called, and
     this helps prevent runtime errors.
   * `Sequenceable` - A container that provides an interface of `next`. This allows the chaining of computations.
