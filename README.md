@@ -6,7 +6,7 @@ This package is dependency free. There are some dev only deps, but the package o
 
 ## Protocols
 
-  * `Appenedable` - A container that provides an interface of `append`. Safe against `nil` values.
+  * `Appendable` - A container that provides an interface of `append`. Safe against `nil` values.
     Namely when passing a container with the value `nil` into either the first of second argument
     to `append`, the other value is not change and there is no runtime error.
   * `Mappable` - A container that provides an interface to `map`. When `map` is called on a container that

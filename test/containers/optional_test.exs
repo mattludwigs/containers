@@ -16,7 +16,7 @@ defmodule Containers.OptionalTest do
     }
   end
 
-  test "implements Appenedable", %{hello_opt: hello_opt, world_opt: world_opt, nil_opt: nil_opt} do
+  test "implements Appendable", %{hello_opt: hello_opt, world_opt: world_opt, nil_opt: nil_opt} do
     assert %Optional{value: %Text{value: "Hello"}} = Containers.append(hello_opt, nil_opt)
     assert %Optional{value: %Text{value: "Hello"}} = Containers.append(nil_opt, hello_opt)
     assert %Optional{value: %Text{value: "Hello world!"}} = Containers.append(hello_opt, world_opt)

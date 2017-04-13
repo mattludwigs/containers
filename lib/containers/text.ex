@@ -5,7 +5,7 @@ defmodule Containers.Text do
 
   # Implemented Protocols
 
-    1. Appenedable
+    1. Appendable
     2. Mappable
     3. Unwrappable
     4. Sequenceable
@@ -29,7 +29,7 @@ defmodule Containers.Text do
   def from_string(str), do: %Text{value: str}
 end
 
-defimpl Containers.Appenedable, for: Containers.Text do
+defimpl Containers.Appendable, for: Containers.Text do
   def append(%Containers.Text{value: nil}, s), do: s
   def append(s, %Containers.Text{value: nil}), do: s
   def append(%Containers.Text{value: s1}, %Containers.Text{value: s2}), do: %Containers.Text{value: s1 <> s2}

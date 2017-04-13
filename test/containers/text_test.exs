@@ -11,7 +11,7 @@ defmodule Containers.TextTest do
      }
   end
 
-  test "implements Appenedable protocol", %{hello: hello, world: world, nil_string: nil_string} do
+  test "implements Appendable protocol", %{hello: hello, world: world, nil_string: nil_string} do
     assert %Text{value: "hello world!"} = Containers.append(hello, world)
     assert %Text{value: "hello"} = Containers.append(hello, nil_string)
     assert %Text{value: "hello"} = Containers.append(nil_string, hello)

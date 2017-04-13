@@ -6,12 +6,12 @@ defmodule Containers.Optional do
 
   # Implemented Protocols
 
-    1. Appenedable
+    1. Appendable
     2. Mappable
     3. Sequenceable
     4. Unwrappable
 
-  **NOTE** Appenedable assumes that the inner value implements the Appenedable protocol. Until further research is done
+  **NOTE** Appendable assumes that the inner value implements the Appendable protocol. Until further research is done
   there does not seem to be a way to ensure this is true of the inner value at compile time.
 
   """
@@ -35,7 +35,7 @@ defmodule Containers.Optional do
   def to_optional(v), do: %Optional{value: v}
 end
 
-defimpl Containers.Appenedable, for: Containers.Optional do
+defimpl Containers.Appendable, for: Containers.Optional do
   def append(%Containers.Optional{value: nil}, o), do: o
   def append(o, %Containers.Optional{value: nil}), do: o
   def append(%Containers.Optional{value: v1}, %Containers.Optional{value: v2}),

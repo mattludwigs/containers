@@ -4,7 +4,7 @@ defmodule Containers do
 
   ## Protocols
 
-    * `Appenedable` - A container that provies an interface of `append`. Safe against `nil` values.
+    * `Appendable` - A container that provies an interface of `append`. Safe against `nil` values.
       Namely when passing a container with the value `nil` into either the first of second argument
       to `append`, the other value is not change and there is no runtime error.
     * `Mappable` - A container that provies an interface to `map`. When `map` is called on a container that
@@ -19,9 +19,9 @@ defmodule Containers do
   """
 
   @doc """
-  Append two values of the Containers.Appenedable protocol
+  Append two values of the Containers.Appendable protocol
 
-  This is useful for chaning of appending appenedable items safely. That is to say if there
+  This is useful for chaning of appending appendable items safely. That is to say if there
   is a `nil` value being used like `nil <> " world!"` there will be a run time error. In this
   case the container for the string type will safe do concatenation.
 
@@ -39,7 +39,7 @@ defmodule Containers do
       %Containers.Text{value: "Hello world!"}
   """
   @spec append(struct(), struct()) :: struct()
-  def append(v1, v2), do: Containers.Appenedable.append(v1, v2)
+  def append(v1, v2), do: Containers.Appendable.append(v1, v2)
 
   @doc """
   map some function `f` of the some structure `s`. Works like the `Enum.map` but provides
