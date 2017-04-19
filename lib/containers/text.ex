@@ -11,6 +11,8 @@ defmodule Containers.Text do
     4. Sequenceable
   """
   alias __MODULE__
+  alias Containers.Optional
+  alias Containers.Result
 
   @type t() :: %Text{value: String.t()}
 
@@ -27,6 +29,136 @@ defmodule Containers.Text do
   """
   @spec from_string(String.t()) :: t()
   def from_string(str), do: %Text{value: str}
+
+  @doc """
+  Wraps the `String.to_atom` function but returns a `Result` container
+  if it unable to parse string into an atom.
+
+  ## Examples
+
+      iex> hello = "hello" |> Containers.Text.from_string()
+      iex> Containers.Text.to_atom(hello)
+      %Containers.Result{value: {:ok, :hello}}
+  """
+  @spec to_atom(t) :: Result.t
+  def to_atom(%Text{value: s}) do
+    try do
+      {:ok, String.to_atom(s)}
+      |> Result.from_tuple()
+    rescue
+      e -> {:error, e} |> Result.from_tuple()
+    end
+  end
+
+  @doc """
+  Wraps the `String.to_integer` function but will return a `Result` Conainer
+
+  ## Examples
+
+      iex> one = "1" |> Containers.Text.from_string()
+      iex> Containers.Text.to_integer(one)
+      %Containers.Result{value: {:ok, 1}}
+  """
+  @spec to_integer(t) :: Result.t
+  def to_integer(%Text{value: s}) do
+    try do
+      {:ok, String.to_integer(s)}
+      |> Result.from_tuple()
+    rescue
+      e -> {:error, e} |> Result.from_tuple()
+    end
+  end
+
+  @doc """
+  Wraps the `String.at` function in Elixir to return an optional
+
+  ## Examples
+
+      iex> hello = Containers.Text.from_string("hello")
+      iex> Containers.Text.at(hello, 0)
+      %Containers.Optional{value: %Containers.Text{value: "h"}}
+
+  ## Advanced Example
+
+  In below example `at` returns an `Optional`, and since `Optional`
+  implements a `Mappable` we can map over the in inner value and append
+  another `Text` value to the inner `Text` value. This is safely done
+  because if the `Option` value is nil it will skip the appending.
+
+  Plus, the code does not need to break the pipe to handle `nil` cases.
+
+  ```
+  some_string
+  |> Text.from_string()
+  |> Text.at(0)
+  |> Containers.map(& Containers.append(&1, Text.from_string("!")))
+  ```
+  """
+  @spec at(t, integer()) :: Optional.t
+  def at(%Text{value: s}, n) do
+    case String.at(s, n) do
+      nil -> Optional.to_optional(nil)
+      s -> s |> Text.from_string() |> Optional.to_optional()
+    end
+  end
+
+  @doc """
+  Wraps the `String.first` function in Elixir to reutrn an optional. This will
+  allow the `Optional` container protocols to be called
+
+  ## Examples
+
+      iex> hello = Containers.Text.from_string("hello")
+      iex> Containers.Text.first(hello)
+      %Containers.Optional{value: %Containers.Text{value: "h"}}
+  """
+  @spec first(t) :: Optional.t
+  def first(%Text{value: s}) do
+    case String.first(s) do
+      nil -> Optional.to_optional(nil)
+      s -> s |> Text.from_string() |> Optional.to_optional()
+    end
+  end
+
+  @doc """
+  Wraps the `String.myer_difference` function in Elixir to return an Optional.
+
+  ## Examples
+
+      iex> string1 = Containers.Text.from_string("fox hops over the dog")
+      iex> string2 = Containers.Text.from_string("fox jumps over the lazy cat")
+      iex> Containers.Text.myers_difference(string1, string2)
+      %Containers.Optional{value: [eq: "fox ", del: "ho", ins: "jum", eq: "ps over the ", del: "dog", ins: "lazy cat"]}
+  """
+  @spec myers_difference(t, t) :: Optional.t()
+  def myers_difference(%Text{value: s1}, %Text{value: s2}) do
+    case String.myers_difference(s1, s2) do
+      nil -> Optional.to_optional(nil)
+      diff -> Optional.to_optional(diff)
+    end
+  end
+
+  @doc """
+  Wraps the `String.next_codepiont` function in Elixir to return an Optional.
+  """
+  @spec next_codepoint(t) :: Optional.t()
+  def next_codepoint(%Text{value: s}) do
+    case String.next_codepoint(s) do
+      nil -> Optional.to_optional(nil)
+      result -> Optional.to_optional(result)
+    end
+  end
+
+  @doc """
+  Wraps the `String.get_grapheme` function in Elixir to return an Optional.
+  """
+  @spec next_grapheme(t) :: Optional.t()
+  def next_grapheme(%Text{value: s}) do
+    case String.next_grapheme(s) do
+      nil -> Optional.to_optional(nil)
+      result -> Optional.to_optional(result)
+    end
+  end
 end
 
 defimpl Containers.Appendable, for: Containers.Text do
