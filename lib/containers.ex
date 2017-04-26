@@ -18,6 +18,8 @@ defmodule Containers do
   Since these are protocols, and highly decoupled, a developer can implement them as needed on their own structs.
   """
 
+  @type appendable :: Containers.Text.t | Containers.Optional.t
+
   @doc """
   Append two values of the Containers.Appendable protocol
 
@@ -108,4 +110,34 @@ defmodule Containers do
   """
   @spec unsafe_unwrap(struct()) :: any()
   def unsafe_unwrap(s), do: Containers.Unwrappable.unsafe!(s)
+
+  @doc """
+  concat a list of Containers that implement the Appendable protocol
+
+  ```
+  hello_world = "hello_world"
+
+  hello_world |> String.split("_")
+  |> Enum.map(&String.capitalize/1)
+  |> Enum.map(&Containers.Text.from_string/1)
+  |> Containers.concat()
+  |> Containers.safe_unwrap("")
+
+  "HelloWorld"
+  ```
+
+  ## Examples
+
+      iex> hello = Containers.Text.from_string("hello")
+      iex> world = Containers.Text.from_string(" world")
+      iex> excliam = Containers.Text.from_string("!")
+      iex> Containers.concat([hello, world, excliam])
+      %Containers.Text{value: "hello world!"}
+  """
+  @spec concat(list()) :: appendable()
+  def concat(appendables) do
+    appendables
+    |> Enum.reverse
+    |> Enum.reduce(&append/2)
+  end
 end
