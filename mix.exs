@@ -1,15 +1,18 @@
 defmodule Containers.Mixfile do
   use Mix.Project
 
+  @version "0.4.0"
+
   def project do
     [app: :containers,
-     version: "0.3.2",
+     version: @version,
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      description: "Functional container like data structures for better runtime safety and polymorphism",
      package: package(),
-     deps: deps()]
+     deps: deps(),
+     docs: docs()]
   end
 
   # Configuration for the OTP application
@@ -40,5 +43,14 @@ defmodule Containers.Mixfile do
       licenses: ["MIT"],
       links: %{github: "https://github.com/mattludwigs/containers"},
     ]
+  end
+
+  defp docs do
+    [ source_ref: @version,
+      source_url: "https://github.com/mattludwigs/containers",
+      extras: [
+        "README.md",
+        "CHANGELOG.md"
+    ]]
   end
 end

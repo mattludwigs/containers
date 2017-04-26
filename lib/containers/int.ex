@@ -29,11 +29,11 @@ defmodule Containers.Int do
   def parse(binary, base \\ 10) do
     try do
       case Integer.parse(binary, base) do
-        :error -> {:error, :no_parse} |> Result.from_tuple()
-        result -> {:ok, result} |> Result.from_tuple()
+        :error -> {:error, :no_parse} |> Result.to_result()
+        result -> {:ok, result} |> Result.to_result()
       end
     rescue
-      e -> {:error, e.message} |> Result.from_tuple()
+      e -> {:error, e.message} |> Result.to_result()
     end
   end
 end

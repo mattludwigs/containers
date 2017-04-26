@@ -13,31 +13,39 @@ defmodule Containers.Result do
   alias __MODULE__
 
   @typedoc """
-  A tuple that follows the `{:ok, value}` or `{:error, value}` pattern
+  A tuple that follows the `{:ok, value}`, `{:error, value}`, `:ok`, or `:error` pattern
   """
-  @type result_tuple :: {:ok, any()} | {:error, any()}
-  @type t :: %Result{value: result_tuple}
+  @type result_value :: {:ok, any()} | {:error, any()} | :ok | :error
+  @type t :: %Result{value: result_value}
 
   defstruct value: {:ok, nil}
 
   @doc """
-  Takes a normal tuple of either `{:ok, value}` or `{:error, value}` and
-  turns it into the Result Container.
+  Takes a value of `:ok`, `:error`, `{:ok, value}`, or `{:error, reason}` and
+  truns it into the Result Container
 
-  Will throw `NoMatch` error if something other then `result_tuple` is
+  Will throw `NoMatch` error if something other then `result_value` is
   passed in.
 
   ## Examples
 
-      iex> Containers.Result.from_tuple({:ok, "hello"})
+      iex> Containers.Result.to_result({:ok, "hello"})
       %Containers.Result{value: {:ok, "hello"}}
 
-      iex> Containers.Result.from_tuple({:error, "no"})
+      iex> Containers.Result.to_result({:error, "no"})
       %Containers.Result{value: {:error, "no"}}
+
+      iex> Containers.Result.to_result(:error)
+      %Containers.Result{value: :error}
+
+      iex> Containers.Result.to_result(:ok)
+      %Containers.Result{value: :ok}
   """
-  @spec from_tuple(result_tuple) :: t()
-  def from_tuple({:ok, _} = t), do: %Result{value: t}
-  def from_tuple({:error, _} = t), do: %Result{value: t}
+  @spec to_result(result_value) :: t()
+  def to_result(:ok), do: %Result{value: :ok}
+  def to_result(:error), do: %Result{value: :error}
+  def to_result({:ok, _} = t), do: %Result{value: t}
+  def to_result({:error, _} = t), do: %Result{value: t}
 end
 
 defimpl Containers.Mappable, for: Containers.Result do
@@ -53,6 +61,10 @@ defimpl Containers.Sequenceable, for: Containers.Result do
     do: f.(v)
   def next(%Containers.Result{value: {:error, _} = r}, _f),
     do: r
+  def next(%Containers.Result{value: :ok = v}, f),
+    do: f.(v)
+  def next(%Containers.Result{value: :error = e}, _f),
+    do: e
 end
 
 defimpl Containers.Unwrappable, for: Containers.Result do
@@ -63,8 +75,11 @@ defimpl Containers.Unwrappable, for: Containers.Result do
 
   def safe(%Containers.Result{value: {:error, nil}}, default),
     do: {:error, default}
-  def safe(%Containers.Result{value: {:error, _} = r}),
+  def safe(%Containers.Result{value: {:error, _} = r}, _default),
     do: r
+
+  def safe(%Containers.Result{value: v}, _default) when v in [:ok, :error],
+    do: v
 
   def unsafe!(%Containers.Result{value: r}), do: r
 end

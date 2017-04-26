@@ -7,6 +7,6 @@ defprotocol Containers.Appendable do
   Append takes two of the same Appendable value and puts them together. Returning
   a new struct with the appended value.
   """
-  @spec append(struct(), struct()) :: struct()
+  @spec append(Containers.appendable(), Containers.appendable()) :: Containers.appendable()
   def append(v1, v2)
 end

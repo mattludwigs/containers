@@ -12,7 +12,7 @@ defprotocol Containers.Sequenceable do
   `f` is a function that takes in the inner value potentially does something
   to the inner value and wraps it back up in a struct
   """
-  @spec next(struct(), (... -> struct)) :: struct
+  @spec next(Containers.sequenceable(), (any() -> Containers.sequenceable())) :: Containers.sequenceable()
   def next(struct, f)
 end
 

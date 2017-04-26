@@ -44,9 +44,9 @@ defmodule Containers.Text do
   def to_atom(%Text{value: s}) do
     try do
       {:ok, String.to_atom(s)}
-      |> Result.from_tuple()
+      |> Result.to_result()
     rescue
-      e -> {:error, e} |> Result.from_tuple()
+      e -> {:error, e} |> Result.to_result()
     end
   end
 
@@ -63,9 +63,9 @@ defmodule Containers.Text do
   def to_integer(%Text{value: s}) do
     try do
       {:ok, String.to_integer(s)}
-      |> Result.from_tuple()
+      |> Result.to_result()
     rescue
-      e -> {:error, e} |> Result.from_tuple()
+      e -> {:error, e} |> Result.to_result()
     end
   end
 

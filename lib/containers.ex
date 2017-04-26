@@ -19,6 +19,9 @@ defmodule Containers do
   """
 
   @type appendable :: Containers.Text.t | Containers.Optional.t
+  @type mappable :: Containers.Text.t | Containers.Optional.t | Containers.Result.t
+  @type sequenceable :: Containers.Text.t | Containers.Optional.t | Containers.Result.t
+  @type unwrappable :: Containers.Text.t | Containers.Optional.t | Containers.Result.t
 
   @doc """
   Append two values of the Containers.Appendable protocol
@@ -40,7 +43,7 @@ defmodule Containers do
       iex> hello |> Containers.append(nil_string) |> Containers.append(world)
       %Containers.Text{value: "Hello world!"}
   """
-  @spec append(struct(), struct()) :: struct()
+  @spec append(appendable(), appendable()) :: appendable()
   def append(v1, v2), do: Containers.Appendable.append(v1, v2)
 
   @doc """
@@ -54,14 +57,14 @@ defmodule Containers do
       iex> Containers.map(my_optional, fn(i) -> i + 1 end)
       %Containers.Optional{value: 2}
   """
-  @spec map(struct(), (... -> any())) :: struct()
+  @spec map(mappable, (... -> any())) :: mappable
   def map(s, f), do: Containers.Mappable.map(s, f)
 
   @doc """
   next is a function that will allow chaining of computations while passing the `value` of the
   last computation.
   """
-  @spec next(struct(), (... -> struct())) :: struct()
+  @spec next(sequenceable(), (any() -> sequenceable())) :: sequenceable()
   def next(s, f), do: Containers.Sequenceable.next(s, f)
 
   @doc """
@@ -91,7 +94,7 @@ defmodule Containers do
       iex> Containers.safe_unwrap(my_nil_string, "This will be the value")
       "This will be the value"
   """
-  @spec safe_unwrap(struct(), any()) :: any()
+  @spec safe_unwrap(unwrappable(), any()) :: any()
   def safe_unwrap(s, default), do: Containers.Unwrappable.safe(s, default)
 
   @doc """
@@ -108,7 +111,7 @@ defmodule Containers do
       iex> Containers.unsafe_unwrap(my_nil_string)
       nil
   """
-  @spec unsafe_unwrap(struct()) :: any()
+  @spec unsafe_unwrap(unwrappable()) :: any()
   def unsafe_unwrap(s), do: Containers.Unwrappable.unsafe!(s)
 
   @doc """

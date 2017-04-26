@@ -19,8 +19,8 @@ defprotocol Containers.Mappable do
   %Containers.Optional{value: 2}
 
   ```
-  
+
   """
-  @spec map(struct(), (... -> any())) :: struct()
+  @spec map(Containers.mappable(), (any() -> Containers.mappable())) :: Containers.mappable()
   def map(struct, f)
 end
