@@ -132,10 +132,7 @@ defmodule Containers.Text do
   """
   @spec myers_difference(t, t) :: Optional.t()
   def myers_difference(%Text{value: s1}, %Text{value: s2}) do
-    case String.myers_difference(s1, s2) do
-      nil -> Optional.to_optional(nil)
-      diff -> Optional.to_optional(diff)
-    end
+    String.myers_difference(s1, s2) |> Optional.to_optional()
   end
 
   @doc """

@@ -17,7 +17,7 @@ defmodule Containers.Optional do
   """
   alias __MODULE__
 
-  @type t :: %Optional{value: nil | any()}
+  @type t :: %Optional{value: any}
 
   @derive [Containers.Unwrappable]
   defstruct value: nil

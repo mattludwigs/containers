@@ -12,7 +12,10 @@ defmodule Containers.Mixfile do
      description: "Functional container like data structures for better runtime safety and polymorphism",
      package: package(),
      deps: deps(),
-     docs: docs()]
+     aliases: aliases(),
+     docs: docs(),
+     dialyzer: dialyzer(),
+    ]
   end
 
   # Configuration for the OTP application
@@ -33,8 +36,13 @@ defmodule Containers.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:ex_doc, "~> 0.14", only: :dev, runtime: false},
-     {:dialyxir, "~> 0.5", only: [:dev], runtime: false}]
+    [{:ex_doc, "~> 0.14", only: [:dev, :test], runtime: false},
+     {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
+     {:dialyxir, "~> 0.5", only: [:dev, :test]}]
+  end
+
+  defp aliases do
+   [{:dev, "test.watch"}]
   end
 
   defp package do
@@ -52,5 +60,11 @@ defmodule Containers.Mixfile do
         "README.md",
         "CHANGELOG.md"
     ]]
+  end
+
+  defp dialyzer do
+   [
+    ignore_warnings: "dialyzer.ignore_warnings"
+   ]
   end
 end
