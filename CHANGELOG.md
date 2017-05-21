@@ -11,7 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- `Containers.Int` is now `Containers.Classy.Int`. This is a breaking change.
+- `Containers.Int` is now `Containers.Classy.Integer`. This is a breaking change.
 
 ## 0.4.0
 
