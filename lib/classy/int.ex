@@ -1,7 +1,7 @@
-defmodule Containers.Int do
+defmodule Containers.Classy.Integer do
   @moduledoc """
-  Provides functions for interacting with the Integer primitive
-  using containers.
+  Provide total function support for `Integer` in the
+  Elixir standard library.
   """
 
   alias Containers.Result
@@ -12,16 +12,16 @@ defmodule Containers.Int do
 
   ## Examples
 
-      iex> Containers.Int.parse "34"
+      iex> Containers.Classy.Integer.parse "34"
       %Containers.Result{value: {:ok, {34, ""}}}
 
-      iex> Containers.Int.parse "34.5"
+      iex> Containers.Classy.Integer.parse "34.5"
       %Containers.Result{value: {:ok, {34, ".5"}}}
 
-      iex> Containers.Int.parse "three"
+      iex> Containers.Classy.Integer.parse "three"
       %Containers.Result{value: {:error, :no_parse}}
 
-      iex> Containers.Int.parse "a2", 38
+      iex> Containers.Classy.Integer.parse "a2", 38
       %Containers.Result{value: {:error, "invalid base 38"}}
 
   """

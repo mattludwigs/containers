@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file (at least to the extent possible, I am not infallible sadly).
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.5.0
+
+### Added
+
+- `Containers.Classy.List` module to provide total/consistent function support to the List module.
+
+### Changed
+
+- `Containers.Int` is now `Containers.Classy.Int`. This is a breaking change.
+
 ## 0.4.0
 
 ### Added
