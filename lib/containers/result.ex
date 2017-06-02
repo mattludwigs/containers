@@ -8,6 +8,7 @@ defmodule Containers.Result do
     1. Mappable
     2. Sequenceable
     3. Unwrappable
+    4. Flattenable
 
   """
   alias __MODULE__
@@ -46,40 +47,73 @@ defmodule Containers.Result do
   def to_result(:error), do: %Result{value: :error}
   def to_result({:ok, _} = t), do: %Result{value: t}
   def to_result({:error, _} = t), do: %Result{value: t}
+
+  @doc """
+  join is usefull when you have a inner value of something like
+  `{:ok, {:ok, value}}` and you want make the inner value `{:ok, value}`
+
+  ## Examples
+
+      iex> outter = Containers.Result.to_result({:ok, {:ok, 1}})
+      %Containers.Result{value: {:ok, {:ok, 1}}}
+      iex> Containers.Result.join(outter)
+      %Containers.Result{value: {:ok, 1}}
+  """
+  @spec join(t) :: t
+  def join(%Result{value: {:ok, {type, _value} = inner}})
+  when type in [:error, :ok], do: to_result(inner)
+  def join(%Result{value: {:ok, :ok}}), do: to_result(:ok)
+  def join(%Result{value: {:error, _value}} = r), do: r
 end
 
 defimpl Containers.Mappable, for: Containers.Result do
-  def map(%Containers.Result{value: {:ok, value}}, f),
-    do: %Containers.Result{value: {:ok, f.(value)}}
-  def map(%Containers.Result{value: {:error, _} = r}, _f),
-    do: %Containers.Result{value: r}
-  def map(%Containers.Result{} = r, _f), do: r
+  alias Containers.Result
+
+  def map(%Result{value: {:ok, value}}, f),
+    do: %Result{value: {:ok, f.(value)}}
+  def map(%Result{value: {:error, _} = r}, _f),
+    do: %Result{value: r}
+  def map(%Result{value: :ok = v}, f),
+    do: %Result{value: {:ok, f.(v)}}
+  def map(%Result{} = r, _f), do: r
 end
 
 defimpl Containers.Sequenceable, for: Containers.Result do
-  def next(%Containers.Result{value: {:ok, v}}, f),
+  alias Containers.Result
+
+  def next(%Result{value: {:ok, v}}, f),
     do: f.(v)
-  def next(%Containers.Result{value: {:error, _} = r}, _f),
+  def next(%Result{value: {:error, _} = r}, _f),
     do: r
-  def next(%Containers.Result{value: :ok = v}, f),
+  def next(%Result{value: :ok = v}, f),
     do: f.(v)
-  def next(%Containers.Result{value: :error = e}, _f),
+  def next(%Result{value: :error = e}, _f),
     do: e
 end
 
 defimpl Containers.Unwrappable, for: Containers.Result do
-  def safe(%Containers.Result{value: {:ok, nil}}, default),
+  alias Containers.Result
+  def safe(%Result{value: {:ok, nil}}, default),
     do: {:ok, default}
-  def safe(%Containers.Result{value: {:ok, _v} = r}, _default),
+  def safe(%Result{value: {:ok, _v} = r}, _default),
     do: r
 
-  def safe(%Containers.Result{value: {:error, nil}}, default),
+  def safe(%Result{value: {:error, nil}}, default),
     do: {:error, default}
-  def safe(%Containers.Result{value: {:error, _} = r}, _default),
+  def safe(%Result{value: {:error, _} = r}, _default),
     do: r
 
-  def safe(%Containers.Result{value: v}, _default) when v in [:ok, :error],
+  def safe(%Result{value: v}, _default) when v in [:ok, :error],
     do: v
 
-  def unsafe!(%Containers.Result{value: r}), do: r
+  def unsafe!(%Result{value: r}), do: r
+end
+
+defimpl Containers.Flattenable, for: Containers.Result do
+  alias Containers.Result
+
+  def flatten(%Result{value: {:ok, %Result{} = inner}}), do: inner
+  def flatten(%Result{value: %Result{value: v} = inner})
+  when v in [:error, :ok], do: inner
+  def flatten(%Result{value: {:error, %Result{}}} = r), do: r
 end

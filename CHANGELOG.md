@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file (at least to the extent possible, I am not infallible sadly).
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.6.0
+
+### Added
+
+- `Containers.Flattenable` protocol for flattening nested containers
+- `Containers.flatten` a function to perform the flattening of Flattenable containers
+- some internal code clean up.
+
+### Changed
+
+- `Containers.map` on the `Result` container will call the function when the Result container value
+   is `:ok`. Before it would just ignore the function returning the Result container. Now we can map
+   that container and the mapping function will return a new Result with the inner value as
+   `{:ok, return_from_function}`. **This is a breaking change**.
+
 ## 0.5.0
 
 ### Added

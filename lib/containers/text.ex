@@ -159,18 +159,20 @@ defmodule Containers.Text do
 end
 
 defimpl Containers.Appendable, for: Containers.Text do
-  def append(%Containers.Text{value: nil}, s), do: s
-  def append(s, %Containers.Text{value: nil}), do: s
-  def append(%Containers.Text{value: s1}, %Containers.Text{value: s2}), do: %Containers.Text{value: s1 <> s2}
+  alias Containers.Text
+  def append(%Text{value: nil}, s), do: s
+  def append(s, %Text{value: nil}), do: s
+  def append(%Text{value: s1}, %Text{value: s2}), do: %Text{value: s1 <> s2}
 end
 
 defimpl Containers.Mappable, for: Containers.Text do
-  def map(%Containers.Text{value: nil} = s, _f), do: s
-  def map(%Containers.Text{value: v}, f) do
+  alias Containers.Text
+  def map(%Text{value: nil} = s, _f), do: s
+  def map(%Text{value: v}, f) do
     v
     |> String.split("", trim: true)
     |> Enum.map(fn s -> f.(s) end)
     |> Enum.join("")
-    |> Containers.Text.from_string
+    |> Text.from_string
   end
 end

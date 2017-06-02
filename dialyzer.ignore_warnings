@@ -3,4 +3,4 @@ Elixir.Containers.Mappable
 Elixir.Containers.Sequenceable
 Elixir.Containers.Unwrappable
 Unknown type prettypr:document/0
-
+Elixir.Containers.Flattenable

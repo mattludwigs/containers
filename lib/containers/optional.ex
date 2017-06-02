@@ -10,6 +10,7 @@ defmodule Containers.Optional do
     2. Mappable
     3. Sequenceable
     4. Unwrappable
+    5. Flattenable
 
   **NOTE** Appendable assumes that the inner value implements the Appendable protocol. Until further research is done
   there does not seem to be a way to ensure this is true of the inner value at compile time.
@@ -36,18 +37,27 @@ defmodule Containers.Optional do
 end
 
 defimpl Containers.Appendable, for: Containers.Optional do
-  def append(%Containers.Optional{value: nil}, o), do: o
-  def append(o, %Containers.Optional{value: nil}), do: o
-  def append(%Containers.Optional{value: v1}, %Containers.Optional{value: v2}),
-    do: %Containers.Optional{value: Containers.append(v1, v2)}
+  alias Containers.Optional
+  def append(%Optional{value: nil}, o), do: o
+  def append(o, %Optional{value: nil}), do: o
+  def append(%Optional{value: v1}, %Optional{value: v2}),
+    do: %Optional{value: Containers.append(v1, v2)}
 end
 
 defimpl Containers.Mappable, for: Containers.Optional do
-  def map(%Containers.Optional{value: nil} = o, _f), do: o
-  def map(%Containers.Optional{value: v}, f), do: %Containers.Optional{value: f.(v)}
+  alias Containers.Optional
+  def map(%Optional{value: nil} = o, _f), do: o
+  def map(%Optional{value: v}, f), do: %Containers.Optional{value: f.(v)}
 end
 
 defimpl Containers.Sequenceable, for: Containers.Optional do
-  def next(%Containers.Optional{value: nil} = o, _f), do: o
-  def next(%Containers.Optional{value: v}, f), do: f.(v)
+  alias Containers.Optional
+  def next(%Optional{value: nil} = o, _f), do: o
+  def next(%Optional{value: v}, f), do: f.(v)
+end
+
+defimpl Containers.Flattenable, for: Containers.Optional do
+  alias Containers.Optional
+  def flatten(%Optional{value: %Optional{value: nil}}), do: Optional.to_optional(nil)
+  def flatten(%Optional{value: %Optional{value: value}}), do: Optional.to_optional(value)
 end

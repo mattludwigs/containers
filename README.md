@@ -25,6 +25,6 @@ The package can be installed by adding `containers` to your list of dependencies
 
 ```elixir
 def deps do
-  [{:containers, "~> 0.5.0"}]
+  [{:containers, "~> 0.6.0"}]
 end
 ```
