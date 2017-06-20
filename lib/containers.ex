@@ -21,7 +21,7 @@ defmodule Containers do
   """
 
   @type appendable :: Containers.Text.t | Containers.Optional.t
-  @type mappable :: Containers.Text.t | Containers.Optional.t | Containers.Result.t
+  @type mappable :: Containers.Text.t | Containers.Optional.t | Containers.Result.t | list
   @type sequenceable :: Containers.Text.t | Containers.Optional.t | Containers.Result.t
   @type unwrappable :: Containers.Text.t | Containers.Optional.t | Containers.Result.t
   @type flattenable :: Containers.Result.t | Containers.Optional.t
@@ -62,6 +62,14 @@ defmodule Containers do
   """
   @spec map(mappable, (... -> any())) :: mappable
   def map(s, f), do: Containers.Mappable.map(s, f)
+
+  @doc """
+  map some function `f` over some nested strcutre `s`. This is useful for when you have a
+  mappable in another mappable and you just want to use a mapping function on the inner
+  value of the nested map.
+  """
+  @spec map2(mappable, (... -> any())) :: mappable
+  def map2(s, f), do: Containers.Mappable.map(s, &Containers.Mappable.map(&1, f))
 
   @doc """
   next is a function that will allow chaining of computations while passing the `value` of the

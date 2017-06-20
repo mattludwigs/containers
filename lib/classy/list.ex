@@ -22,3 +22,8 @@ defmodule Containers.Classy.List do
     list |> List.first() |> Optional.to_optional()
   end
 end
+
+defimpl Containers.Mappable, for: List do
+  def map([], _f), do: []
+  def map(list, f), do: Enum.map(list, f)
+end

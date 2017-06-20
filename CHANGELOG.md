@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file (at least to the extent possible, I am not infallible sadly).
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.6.1
+
+### Added
+
+- Implemented the `Mappable protocol` for Elixir's List. Now you can call `Containers.map` on a normal list.
+- Added `Containers.map2`, which will allow you to pass a mapping function to map on a nested mapable structure.
+
 ## 0.6.0
 
 ### Added
