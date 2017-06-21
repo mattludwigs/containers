@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file (at least to the extent possible, I am not infallible sadly).
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.6.2
+
+### Added
+
+- `mapn` function, which will allow for lifting a mapping function into `n` number of nested mappable containers.
+- Some documentation clean up.
+
 ## 0.6.1
 
 ### Added

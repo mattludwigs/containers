@@ -26,6 +26,7 @@ defmodule Containers do
   @type unwrappable :: Containers.Text.t | Containers.Optional.t | Containers.Result.t
   @type flattenable :: Containers.Result.t | Containers.Optional.t
 
+
   @doc """
   Append two values of the Containers.Appendable protocol
 
@@ -50,6 +51,21 @@ defmodule Containers do
   def append(v1, v2), do: Containers.Appendable.append(v1, v2)
 
   @doc """
+  Map some mapping function `f` on the innner value `n` number of mappable container structures deep. This is
+  useful for when you have deeply nested containers that are mappable and you want to operator
+  on the most inner value without have to unwrap.
+
+  Note there is a provided `map2` function in this module for mapping two layers deeps, but if you needing
+  mapping for a strucuture that is more deeply nested then 2 contianers, then this is the function
+  you are looking for.
+  """
+  @spec mapn(mappable, integer, (... -> any())) :: mappable
+  def mapn(mappable, 1, f), do: map(mappable, f)
+  def mapn(mappable, n, f) do
+    map(mappable, fn x -> mapn(x, n - 1, f) end)
+  end
+
+  @doc """
   map some function `f` of the some structure `s`. Works like the `Enum.map` but provides
   more polymorphic protocol, and does rely on the `Enumerable` protocol allowing use of
   just getting map without needing to implement the full `Enumerable` protocol.
@@ -69,7 +85,7 @@ defmodule Containers do
   value of the nested map.
   """
   @spec map2(mappable, (... -> any())) :: mappable
-  def map2(s, f), do: Containers.Mappable.map(s, &Containers.Mappable.map(&1, f))
+  def map2(s, f), do: mapn(s, 2, f) 
 
   @doc """
   next is a function that will allow chaining of computations while passing the `value` of the
@@ -148,7 +164,7 @@ defmodule Containers do
       iex> Containers.concat([hello, world, excliam])
       %Containers.Text{value: "hello world!"}
   """
-  @spec concat(list()) :: appendable()
+  @spec concat(list(appendable)) :: appendable()
   def concat(appendables) do
     appendables
     |> Enum.reverse
