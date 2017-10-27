@@ -16,7 +16,7 @@ This package is dependency free. There are some dev only deps, but the package o
   * `Unwrappable`  - A container that provides an interface to `safe` and `unsafe` unwrapping of inner value. Safe
     will need a default in case of `nil` value of container, helping prevent runtime errors. Unsafe will just return
     the value of the container regardless of a `nil` value potentially causing runtime errors
-  * `Flattenable` - A container that has a nested container of the same type, and is able to be flattened down into
+  * `Joinable` - A container that has a nested container of the same type, and is able to be join down into
      a single representation of the structure.
 
 Since these are protocols, and highly decoupled, a developer can implement them as needed on their own structs.
@@ -27,7 +27,7 @@ The package can be installed by adding `containers` to your list of dependencies
 
 ```elixir
 def deps do
-  [{:containers, "~> 0.7.0"}]
+  [{:containers, "~> 0.7.1"}]
 end
 ```
 
