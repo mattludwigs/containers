@@ -39,11 +39,11 @@ defmodule Containers.OptionalTest do
     assert %Optional{value: 15129} = sequenced
   end
 
-  test "implements Flattenable protocol correctly" do
+  test "implements Joinable protocol correctly" do
     nested_nil_value = %Optional{value: %Optional{value: nil}}
     nested_value = %Optional{value: %Optional{value: 1}}
 
-    assert Containers.flatten(nested_nil_value) == %Optional{value: nil}
-    assert Containers.flatten(nested_value) == %Optional{value: 1}
+    assert Containers.join(nested_nil_value) == %Optional{value: nil}
+    assert Containers.join(nested_value) == %Optional{value: 1}
   end
 end

@@ -55,19 +55,19 @@ defmodule Containers.ResultTest do
     assert Result.join(r) == r
   end
 
-  test "implements the Flattenable protocol correctly for inner value of {:ok, result}" do
+  test "implements the Joinable protocol correctly for inner value of {:ok, result}" do
     nested_ok_tuples = %Result{value: {:ok, Result.to_result({:ok, 1})}}
-    assert Containers.flatten(nested_ok_tuples) == Result.to_result({:ok, 1})
+    assert Containers.join(nested_ok_tuples) == Result.to_result({:ok, 1})
   end
 
-  test "implements the Flattenable protocol correctly for inner value of result" do
-    assert Containers.flatten(%Result{value: Result.to_result(:ok)}) == Result.to_result(:ok)
-    assert Containers.flatten(%Result{value: Result.to_result(:error)}) == Result.to_result(:error)
+  test "implements the Joinable protocol correctly for inner value of result" do
+    assert Containers.join(%Result{value: Result.to_result(:ok)}) == Result.to_result(:ok)
+    assert Containers.join(%Result{value: Result.to_result(:error)}) == Result.to_result(:error)
   end
 
-  test "implements the Flattenable protocol correctly for inner vlaue of {:error, result}" do
+  test "implements the Joinable protocol correctly for inner vlaue of {:error, result}" do
     nested_error = %Result{value: {:error, Result.to_result(:ok)}}
-    assert Containers.flatten(nested_error) == nested_error
+    assert Containers.join(nested_error) == nested_error
   end
 
   test "implements Sequenceable protocol", %{ok_result: ok_result, ok_value_result: ok_vr} do

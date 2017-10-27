@@ -109,11 +109,11 @@ defimpl Containers.Unwrappable, for: Containers.Result do
   def unsafe!(%Result{value: r}), do: r
 end
 
-defimpl Containers.Flattenable, for: Containers.Result do
+defimpl Containers.Joinable, for: Containers.Result do
   alias Containers.Result
 
-  def flatten(%Result{value: {:ok, %Result{} = inner}}), do: inner
-  def flatten(%Result{value: %Result{value: v} = inner})
+  def join(%Result{value: {:ok, %Result{} = inner}}), do: inner
+  def join(%Result{value: %Result{value: v} = inner})
   when v in [:error, :ok], do: inner
-  def flatten(%Result{value: {:error, %Result{}}} = r), do: r
+  def join(%Result{value: {:error, %Result{}}} = r), do: r
 end
