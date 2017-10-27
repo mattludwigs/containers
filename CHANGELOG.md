@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file (at least to the extent possible, I am not infallible sadly).
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.7.0
+
+### Changed
+
+- `Containers.next` function to be named `and_then` **This is a breaking change**
+- `next` function in `Containers.Sequenceable` to be `and_then` **This is a breaking change**
+
 ## 0.6.2
 
 ### Added

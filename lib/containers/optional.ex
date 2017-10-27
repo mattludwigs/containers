@@ -52,8 +52,8 @@ end
 
 defimpl Containers.Sequenceable, for: Containers.Optional do
   alias Containers.Optional
-  def next(%Optional{value: nil} = o, _f), do: o
-  def next(%Optional{value: v}, f), do: f.(v)
+  def and_then(%Optional{value: nil} = o, _f), do: o
+  def and_then(%Optional{value: v}, f), do: f.(v)
 end
 
 defimpl Containers.Flattenable, for: Containers.Optional do

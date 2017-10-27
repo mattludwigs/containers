@@ -27,6 +27,10 @@ The package can be installed by adding `containers` to your list of dependencies
 
 ```elixir
 def deps do
-  [{:containers, "~> 0.6.2"}]
+  [{:containers, "~> 0.7.0"}]
 end
 ```
+
+# Note
+
+Until version `1.0.0` assume minor changes (that is the number in the second spot) to reflect breaking changes.

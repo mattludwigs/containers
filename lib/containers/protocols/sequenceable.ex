@@ -1,6 +1,6 @@
 defprotocol Containers.Sequenceable do
   @moduledoc """
-  provides `next` function to chain compuations together
+  provides `and_then` function to chain compuations together
 
   If a custome structure implements a field `value` in the struct,
   then that structe can derive `Sequenceable`.
@@ -12,10 +12,10 @@ defprotocol Containers.Sequenceable do
   `f` is a function that takes in the inner value potentially does something
   to the inner value and wraps it back up in a struct
   """
-  @spec next(Containers.sequenceable(), (any() -> Containers.sequenceable())) :: Containers.sequenceable()
-  def next(struct, f)
+  @spec and_then(Containers.sequenceable(), (any() -> Containers.sequenceable())) :: Containers.sequenceable()
+  def and_then(struct, f)
 end
 
 defimpl Containers.Sequenceable, for: Any do
-  def next(%{value: value}, f), do: f.(value)
+  def and_then(%{value: value}, f), do: f.(value)
 end
