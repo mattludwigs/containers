@@ -92,7 +92,7 @@ defmodule Containers do
   last computation.
   """
   @spec and_then(sequenceable(), (any() -> sequenceable())) :: sequenceable()
-  def and_then(s, f), do: Containers.Sequenceable.next(s, f)
+  def and_then(s, f), do: Containers.Sequenceable.and_then(s, f)
 
   @doc """
   `>>>` is the infix operator for `and_then`
