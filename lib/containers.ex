@@ -10,7 +10,7 @@ defmodule Containers do
     * `Mappable` - A container that provies an interface to `map`. When `map` is called on a container that
       has a `nil` value that container just passes through with out the mapping function being called, and
       this helps prevent runtime errors.
-    * `Sequenceable` - A container that provides an interface of `next`. This allows the chaining of computations.
+    * `Sequenceable` - A container that provides an interface of `and_then`. This allows the chaining of computations.
     * `Unwrappable`  - A container that provides an interface to `safe` and `unsafe` unwrapping of inner value. Safe
       will need a default in case of `nil` value of container, helping prevent runtime errors. Unsafe will just return
       the value of the container regardless of a `nil` value potentially causing runtime errors
@@ -88,14 +88,14 @@ defmodule Containers do
   def map2(s, f), do: mapn(s, 2, f) 
 
   @doc """
-  next is a function that will allow chaining of computations while passing the `value` of the
+  and_then is a function that will allow chaining of computations while passing the `value` of the
   last computation.
   """
-  @spec next(sequenceable(), (any() -> sequenceable())) :: sequenceable()
-  def next(s, f), do: Containers.Sequenceable.next(s, f)
+  @spec and_then(sequenceable(), (any() -> sequenceable())) :: sequenceable()
+  def and_then(s, f), do: Containers.Sequenceable.and_then(s, f)
 
   @doc """
-  `>>>` is the infix operator for `next`
+  `>>>` is the infix operator for `and_then`
 
   ## Examples
 
@@ -104,7 +104,7 @@ defmodule Containers do
       iex> my_optional >>> fn(i) -> Containers.Optional.to_optional(i + 1) end
       %Containers.Optional{value: 2}
   """
-  def s >>> f, do: Containers.Sequenceable.next(s, f)
+  def s >>> f, do: Containers.Sequenceable.and_then(s, f)
 
   @doc """
   safely unwrap the inner value of a container, proviing a default in case the value is `nil`.

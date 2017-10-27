@@ -81,13 +81,13 @@ end
 defimpl Containers.Sequenceable, for: Containers.Result do
   alias Containers.Result
 
-  def next(%Result{value: {:ok, v}}, f),
+  def and_then(%Result{value: {:ok, v}}, f),
     do: f.(v)
-  def next(%Result{value: {:error, _} = r}, _f),
+  def and_then(%Result{value: {:error, _} = r}, _f),
     do: r
-  def next(%Result{value: :ok = v}, f),
+  def and_then(%Result{value: :ok = v}, f),
     do: f.(v)
-  def next(%Result{value: :error = e}, _f),
+  def and_then(%Result{value: :error = e}, _f),
     do: e
 end
 
