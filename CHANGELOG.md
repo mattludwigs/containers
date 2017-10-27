@@ -8,7 +8,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - `Containers.next` function to be named `and_then` **This is a breaking change**
-- `next` function in `Containers.Sequenceable` to be `and_then` **This is a breaking change**
+- `Containers.next` function in `Containers.Sequenceable` to be `and_then` **This is a breaking change**
+- `Containers.Flattenable` protocol is now named `Containers.Joinable` **This is a breaking change**
+- `Containers.flatten` function is now named `Containers.join` **This is a breaking change**
 
 ## 0.6.2
 

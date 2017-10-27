@@ -10,7 +10,7 @@ defmodule Containers.Optional do
     2. Mappable
     3. Sequenceable
     4. Unwrappable
-    5. Flattenable
+    5. Joinable
 
   **NOTE** Appendable assumes that the inner value implements the Appendable protocol. Until further research is done
   there does not seem to be a way to ensure this is true of the inner value at compile time.
@@ -56,8 +56,7 @@ defimpl Containers.Sequenceable, for: Containers.Optional do
   def and_then(%Optional{value: v}, f), do: f.(v)
 end
 
-defimpl Containers.Flattenable, for: Containers.Optional do
+defimpl Containers.Joinable, for: Containers.Optional do
   alias Containers.Optional
-  def flatten(%Optional{value: %Optional{value: nil}}), do: Optional.to_optional(nil)
-  def flatten(%Optional{value: %Optional{value: value}}), do: Optional.to_optional(value)
+  def join(%Optional{value: %Optional{value: value}}), do: Optional.to_optional(value)
 end

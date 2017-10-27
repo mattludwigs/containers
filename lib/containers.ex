@@ -14,7 +14,7 @@ defmodule Containers do
     * `Unwrappable`  - A container that provides an interface to `safe` and `unsafe` unwrapping of inner value. Safe
       will need a default in case of `nil` value of container, helping prevent runtime errors. Unsafe will just return
       the value of the container regardless of a `nil` value potentially causing runtime errors
-    * `Flattenable` - A container that provides an interface to `flatten` function. This allows for nested containers of the
+    * `Joinable` - A container that provides an interface to `join` function. This allows for nested containers of the
        same container type to have the outter layer removed.
 
   Since these are protocols, and highly decoupled, a developer can implement them as needed on their own structs.
@@ -24,7 +24,7 @@ defmodule Containers do
   @type mappable :: Containers.Text.t | Containers.Optional.t | Containers.Result.t | list
   @type sequenceable :: Containers.Text.t | Containers.Optional.t | Containers.Result.t
   @type unwrappable :: Containers.Text.t | Containers.Optional.t | Containers.Result.t
-  @type flattenable :: Containers.Result.t | Containers.Optional.t
+  @type joinable :: Containers.Result.t | Containers.Optional.t
 
 
   @doc """
@@ -173,15 +173,15 @@ defmodule Containers do
 
   @doc """
   This is useful for when you have a container that inner structure of that same container,
-  and you want to flatten that down to one level.
+  and you want to join that down to one level.
 
   ## Examples
 
       iex> nested = %Containers.Optional{value: %Containers.Optional{value: "hello"}}
-      iex> Containers.flatten(nested)
+      iex> Containers.join(nested)
       %Containers.Optional{value: "hello"}
 
   """
-  @spec flatten(flattenable) :: flattenable
-  def flatten(flat), do: Containers.Flattenable.flatten(flat)
+  @spec join(joinable) :: joinable
+  def join(j), do: Containers.Joinable.join(j)
 end
