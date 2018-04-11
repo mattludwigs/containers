@@ -16,8 +16,9 @@ defmodule Containers.Classy.List do
       iex> Containers.Classy.List.first [1]
       %Containers.Optional{value: 1}
   """
-  @spec first(list) :: Optional.t
-  def first([]), do:  Optional.to_optional(nil)
+  @spec first(list) :: Optional.t()
+  def first([]), do: Optional.to_optional(nil)
+
   def first(list) do
     list |> List.first() |> Optional.to_optional()
   end

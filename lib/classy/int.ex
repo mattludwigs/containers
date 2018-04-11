@@ -25,7 +25,7 @@ defmodule Containers.Classy.Integer do
       %Containers.Result{value: {:error, "invalid base 38"}}
 
   """
-  @spec parse(String.t, integer()) :: Result.t()
+  @spec parse(String.t(), integer()) :: Result.t()
   def parse(binary, base \\ 10) do
     try do
       case Integer.parse(binary, base) do

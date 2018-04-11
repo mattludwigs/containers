@@ -11,6 +11,6 @@ defmodule Containers.Classy.List.Test do
   end
 
   test "Wraps the Elixr.List module when list is not empty returing an Optional" do
-    assert ClassyList.first([1,2]) == %Optional{value: 1}
+    assert ClassyList.first([1, 2]) == %Optional{value: 1}
   end
 end

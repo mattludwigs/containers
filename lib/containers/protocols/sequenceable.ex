@@ -12,7 +12,8 @@ defprotocol Containers.Sequenceable do
   `f` is a function that takes in the inner value potentially does something
   to the inner value and wraps it back up in a struct
   """
-  @spec and_then(Containers.sequenceable(), (any() -> Containers.sequenceable())) :: Containers.sequenceable()
+  @spec and_then(Containers.sequenceable(), (any() -> Containers.sequenceable())) ::
+          Containers.sequenceable()
   def and_then(struct, f)
 end
 

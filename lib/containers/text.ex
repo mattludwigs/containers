@@ -17,7 +17,7 @@ defmodule Containers.Text do
   @type t() :: %Text{value: String.t()}
 
   @derive [Containers.Unwrappable, Containers.Sequenceable]
-  defstruct [value: ""]
+  defstruct value: ""
 
   @doc """
   takes a normal string and puts in a Text Container.
@@ -40,7 +40,7 @@ defmodule Containers.Text do
       iex> Containers.Text.to_atom(hello)
       %Containers.Result{value: {:ok, :hello}}
   """
-  @spec to_atom(t) :: Result.t
+  @spec to_atom(t) :: Result.t()
   def to_atom(%Text{value: s}) do
     try do
       {:ok, String.to_atom(s)}
@@ -59,7 +59,7 @@ defmodule Containers.Text do
       iex> Containers.Text.to_integer(one)
       %Containers.Result{value: {:ok, 1}}
   """
-  @spec to_integer(t) :: Result.t
+  @spec to_integer(t) :: Result.t()
   def to_integer(%Text{value: s}) do
     try do
       {:ok, String.to_integer(s)}
@@ -94,7 +94,7 @@ defmodule Containers.Text do
   |> Containers.map(& Containers.append(&1, Text.from_string("!")))
   ```
   """
-  @spec at(t, integer()) :: Optional.t
+  @spec at(t, integer()) :: Optional.t()
   def at(%Text{value: s}, n) do
     case String.at(s, n) do
       nil -> Optional.to_optional(nil)
@@ -112,7 +112,7 @@ defmodule Containers.Text do
       iex> Containers.Text.first(hello)
       %Containers.Optional{value: %Containers.Text{value: "h"}}
   """
-  @spec first(t) :: Optional.t
+  @spec first(t) :: Optional.t()
   def first(%Text{value: s}) do
     case String.first(s) do
       nil -> Optional.to_optional(nil)
@@ -168,11 +168,12 @@ end
 defimpl Containers.Mappable, for: Containers.Text do
   alias Containers.Text
   def map(%Text{value: nil} = s, _f), do: s
+
   def map(%Text{value: v}, f) do
     v
     |> String.split("", trim: true)
     |> Enum.map(fn s -> f.(s) end)
     |> Enum.join("")
-    |> Text.from_string
+    |> Text.from_string()
   end
 end

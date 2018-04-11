@@ -5,10 +5,12 @@ defmodule Containers.TextTest do
   doctest Containers.Text
 
   setup_all do
-    {:ok, %{hello: Text.from_string("hello"),
-             world: Text.from_string(" world!"),
-             nil_string: Text.from_string(nil)}
-     }
+    {:ok,
+     %{
+       hello: Text.from_string("hello"),
+       world: Text.from_string(" world!"),
+       nil_string: Text.from_string(nil)
+     }}
   end
 
   test "implements Appendable protocol", %{hello: hello, world: world, nil_string: nil_string} do

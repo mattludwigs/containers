@@ -20,12 +20,11 @@ defmodule Containers do
   Since these are protocols, and highly decoupled, a developer can implement them as needed on their own structs.
   """
 
-  @type appendable :: Containers.Text.t | Containers.Optional.t
-  @type mappable :: Containers.Text.t | Containers.Optional.t | Containers.Result.t | list
-  @type sequenceable :: Containers.Text.t | Containers.Optional.t | Containers.Result.t
-  @type unwrappable :: Containers.Text.t | Containers.Optional.t | Containers.Result.t
-  @type joinable :: Containers.Result.t | Containers.Optional.t
-
+  @type appendable :: Containers.Text.t() | Containers.Optional.t()
+  @type mappable :: Containers.Text.t() | Containers.Optional.t() | Containers.Result.t() | list
+  @type sequenceable :: Containers.Text.t() | Containers.Optional.t() | Containers.Result.t()
+  @type unwrappable :: Containers.Text.t() | Containers.Optional.t() | Containers.Result.t()
+  @type joinable :: Containers.Result.t() | Containers.Optional.t()
 
   @doc """
   Append two values of the Containers.Appendable protocol
@@ -61,6 +60,7 @@ defmodule Containers do
   """
   @spec mapn(mappable, integer, (... -> any())) :: mappable
   def mapn(mappable, 1, f), do: map(mappable, f)
+
   def mapn(mappable, n, f) do
     map(mappable, fn x -> mapn(x, n - 1, f) end)
   end
@@ -85,7 +85,7 @@ defmodule Containers do
   value of the nested map.
   """
   @spec map2(mappable, (... -> any())) :: mappable
-  def map2(s, f), do: mapn(s, 2, f) 
+  def map2(s, f), do: mapn(s, 2, f)
 
   @doc """
   and_then is a function that will allow chaining of computations while passing the `value` of the
@@ -167,7 +167,7 @@ defmodule Containers do
   @spec concat(list(appendable)) :: appendable()
   def concat(appendables) do
     appendables
-    |> Enum.reverse
+    |> Enum.reverse()
     |> Enum.reduce(&append/2)
   end
 

@@ -61,7 +61,9 @@ defmodule Containers.Result do
   """
   @spec join(t) :: t
   def join(%Result{value: {:ok, {type, _value} = inner}})
-  when type in [:error, :ok], do: to_result(inner)
+      when type in [:error, :ok],
+      do: to_result(inner)
+
   def join(%Result{value: {:ok, :ok}}), do: to_result(:ok)
   def join(%Result{value: {:error, _value}} = r), do: r
 end
@@ -69,42 +71,30 @@ end
 defimpl Containers.Mappable, for: Containers.Result do
   alias Containers.Result
 
-  def map(%Result{value: {:ok, value}}, f),
-    do: %Result{value: {:ok, f.(value)}}
-  def map(%Result{value: {:error, _} = r}, _f),
-    do: %Result{value: r}
-  def map(%Result{value: :ok = v}, f),
-    do: %Result{value: {:ok, f.(v)}}
+  def map(%Result{value: {:ok, value}}, f), do: %Result{value: {:ok, f.(value)}}
+  def map(%Result{value: {:error, _} = r}, _f), do: %Result{value: r}
+  def map(%Result{value: :ok = v}, f), do: %Result{value: {:ok, f.(v)}}
   def map(%Result{} = r, _f), do: r
 end
 
 defimpl Containers.Sequenceable, for: Containers.Result do
   alias Containers.Result
 
-  def and_then(%Result{value: {:ok, v}}, f),
-    do: f.(v)
-  def and_then(%Result{value: {:error, _} = r}, _f),
-    do: r
-  def and_then(%Result{value: :ok = v}, f),
-    do: f.(v)
-  def and_then(%Result{value: :error = e}, _f),
-    do: e
+  def and_then(%Result{value: {:ok, v}}, f), do: f.(v)
+  def and_then(%Result{value: {:error, _} = r}, _f), do: r
+  def and_then(%Result{value: :ok = v}, f), do: f.(v)
+  def and_then(%Result{value: :error = e}, _f), do: e
 end
 
 defimpl Containers.Unwrappable, for: Containers.Result do
   alias Containers.Result
-  def safe(%Result{value: {:ok, nil}}, default),
-    do: {:ok, default}
-  def safe(%Result{value: {:ok, _v} = r}, _default),
-    do: r
+  def safe(%Result{value: {:ok, nil}}, default), do: {:ok, default}
+  def safe(%Result{value: {:ok, _v} = r}, _default), do: r
 
-  def safe(%Result{value: {:error, nil}}, default),
-    do: {:error, default}
-  def safe(%Result{value: {:error, _} = r}, _default),
-    do: r
+  def safe(%Result{value: {:error, nil}}, default), do: {:error, default}
+  def safe(%Result{value: {:error, _} = r}, _default), do: r
 
-  def safe(%Result{value: v}, _default) when v in [:ok, :error],
-    do: v
+  def safe(%Result{value: v}, _default) when v in [:ok, :error], do: v
 
   def unsafe!(%Result{value: r}), do: r
 end
@@ -113,7 +103,10 @@ defimpl Containers.Joinable, for: Containers.Result do
   alias Containers.Result
 
   def join(%Result{value: {:ok, %Result{} = inner}}), do: inner
+
   def join(%Result{value: %Result{value: v} = inner})
-  when v in [:error, :ok], do: inner
+      when v in [:error, :ok],
+      do: inner
+
   def join(%Result{value: {:error, %Result{}}} = r), do: r
 end

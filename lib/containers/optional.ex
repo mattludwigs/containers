@@ -40,6 +40,7 @@ defimpl Containers.Appendable, for: Containers.Optional do
   alias Containers.Optional
   def append(%Optional{value: nil}, o), do: o
   def append(o, %Optional{value: nil}), do: o
+
   def append(%Optional{value: v1}, %Optional{value: v2}),
     do: %Optional{value: Containers.append(v1, v2)}
 end
