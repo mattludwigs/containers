@@ -5,5 +5,5 @@ config :mix_test_watch,
     "deps.get",
     "docs",
     "test",
-    "dialyzer"
+    "dialyzer --format dialyxir"
   ]

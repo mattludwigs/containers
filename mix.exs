@@ -7,7 +7,7 @@ defmodule Containers.Mixfile do
     [
       app: :containers,
       version: @version,
-      elixir: "~> 1.4",
+      elixir: "~> 1.6",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       description:
@@ -39,9 +39,9 @@ defmodule Containers.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:ex_doc, "~> 0.14", only: [:dev, :test], runtime: false},
-      {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
-      {:dialyxir, "~> 0.5", only: [:dev, :test]}
+      {:ex_doc, "0.18.4", only: [:dev, :test], runtime: false},
+      {:mix_test_watch, "~> 0.8", only: :dev, runtime: false},
+      {:dialyxir, "~> 1.0.0-rc.3", only: [:dev, :test], runtime: false}
     ]
   end
 
