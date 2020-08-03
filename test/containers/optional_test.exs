@@ -40,7 +40,7 @@ defmodule Containers.OptionalTest do
 
     nil_seq =
       nil_opt >>>
-        fn %Text{} = t -> t |> Containers.safe_unwrap(t, "bob") |> Optional.to_optional() end
+        fn %Text{} = t -> Containers.safe_unwrap(t, "bob") |> Optional.to_optional() end
 
     assert %Optional{value: nil} = nil_seq
     assert %Optional{value: 15129} = sequenced

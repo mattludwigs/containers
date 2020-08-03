@@ -7,7 +7,7 @@ defmodule Containers.Mixfile do
     [
       app: :containers,
       version: @version,
-      elixir: "~> 1.6",
+      elixir: "~> 1.8",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       description:
@@ -16,7 +16,8 @@ defmodule Containers.Mixfile do
       deps: deps(),
       aliases: aliases(),
       docs: docs(),
-      dialyzer: dialyzer()
+      dialyzer: dialyzer(),
+      preferred_cli_env: [docs: :docs, "hex.publish": :docs]
     ]
   end
 
@@ -39,9 +40,8 @@ defmodule Containers.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:ex_doc, "0.18.4", only: [:dev, :test], runtime: false},
-      {:mix_test_watch, "~> 0.8", only: :dev, runtime: false},
-      {:dialyxir, "~> 1.0.0-rc.3", only: [:dev, :test], runtime: false}
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:ex_doc, "~> 0.22", only: :docs, runtime: false}
     ]
   end
 
@@ -52,7 +52,7 @@ defmodule Containers.Mixfile do
   defp package do
     [
       maintainers: ["Matt Ludwigs"],
-      licenses: ["MIT"],
+      licenses: ["Apache-2.0"],
       links: %{github: "https://github.com/mattludwigs/containers"}
     ]
   end
@@ -70,7 +70,8 @@ defmodule Containers.Mixfile do
 
   defp dialyzer do
     [
-      ignore_warnings: "dialyzer.ignore_warnings"
+      ignore_warnings: "dialyzer.ignore_warnings",
+      flags: [:unmatched_returns, :error_handling, :race_conditions]
     ]
   end
 end

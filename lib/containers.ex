@@ -182,6 +182,6 @@ defmodule Containers do
       %Containers.Optional{value: "hello"}
 
   """
-  @spec join(joinable) :: joinable
+  @spec join(Containers.Joinable.t()) :: Containers.Joinable.t()
   def join(j), do: Containers.Joinable.join(j)
 end
